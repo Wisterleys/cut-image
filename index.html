@@ -7,6 +7,17 @@
     <link rel="stylesheet" href="css/bootstrap/dist/css/bootstrap.min.css">
     <script src="css/bootstrap/dist/js/bootstrap.min.js"></script>
     <title>Corta-imagem</title>
+    <style>
+        .cont{
+            display: flex;
+            justify-content: center;
+            flex-direction: column;
+            align-items: center;
+        }
+        img{
+            width: 100%;
+        }
+    </style>
 </head>
 <body>
     <main class="container">
@@ -16,10 +27,12 @@
             <a class="flex-sm-fill text-sm-center nav-link" href="#">Link</a>
             <a class="flex-sm-fill text-sm-center nav-link disabled">Disabled</a>
         </nav>
-        <div class="container">
-            <img src="" alt="" width="100%">
-            <button class="btn btn-warning btn-get">Pega file</button>
-            <input type="file" hidden>
+        <div class="container cont">
+            
+            <img src="" alt="" width="100%" class="m-2" draggable="false">
+            <input type="file" hidden class="btn btn-primary btn-lg btn-block " accept="image/*">
+            <button type="button" class="btn btn-warning btn-lg btn-block btn-get m-2">Get image</button>
+            
         </div>
     </main>
     <script src="js/main.js"></script>
