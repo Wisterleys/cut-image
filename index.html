@@ -9,6 +9,7 @@
     <title>Corta-imagem</title>
     <style>
         .cont{
+            position: relative;
             display: flex;
             justify-content: center;
             flex-direction: column;
@@ -16,6 +17,13 @@
         }
         img{
             width: 100%;
+            height: auto;
+        }
+        .selection{
+            visibility: hidden;
+            position: fixed;
+            border-style: dashed;
+            border-color: green;
         }
     </style>
 </head>
@@ -28,10 +36,10 @@
             <a class="flex-sm-fill text-sm-center nav-link disabled">Disabled</a>
         </nav>
         <div class="container cont">
-            
+            <div class="selection"></div>
             <img src="" alt="" width="100%" class="m-2" draggable="false">
             <input type="file" hidden class="btn btn-primary btn-lg btn-block " accept="image/*">
-            <button type="button" class="btn btn-warning btn-lg btn-block btn-get m-2">Get image</button>
+            <button type="button" class="btn btn-warning btn-lg btn-block btn-get m-2">Seleciona imagem</button>
             
         </div>
     </main>
