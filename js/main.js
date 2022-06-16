@@ -1,6 +1,8 @@
 
  let startX, startY,relativeX,relativeY,endX,endY,relativeEndX,relativeEndY;
  let toggle=false;
+ let photoName="none";
+ let downloadButton =  document.querySelector("#btn-crop");
 function clickFile(el){
     return el.parentNode.querySelector('input[type=file]')
 }
@@ -8,7 +10,7 @@ function clickFile(el){
 document.addEventListener("DOMContentLoaded",function(){
     const selection = document.querySelector(".selection")
     const photoPreview = document.querySelector("img")
-    const image = new Image();
+    let image;
 
     const EVENTS ={
         mousedown(){
@@ -27,6 +29,7 @@ document.addEventListener("DOMContentLoaded",function(){
                 const {clientX,clientY}=event
                 endX=clientX;
                 endY=clientY;
+                
                 selection.style.visibility="visible";
                 selection.style.top=startY+"px"
                 selection.style.left=startX+"px"
@@ -47,13 +50,16 @@ document.addEventListener("DOMContentLoaded",function(){
     //Ações
     Object.keys(EVENTS).forEach(ev=>photoPreview.addEventListener(ev,EVENTS[ev]))//Ativação de eventos
     document.querySelector('input[type=file]').onchange=function(){
+        photoName = this.files.item(0).name
         const read = new FileReader();
         read.readAsDataURL(this.files[0])
         read.onload=function () {
+            image= new Image()
             image.src=read.result
             console.dir(image)
             const {offsetHeight,offsetWidth,offsetX} = image
-            console.log(offsetX)
+            console.log(image)
+            image.onload=onLoadImage
          }
         
     }
@@ -64,7 +70,7 @@ document.addEventListener("DOMContentLoaded",function(){
 
     const canvas = document.createElement("canvas");
     const ctx = canvas.getContext('2d')
-    image.onload=function () {
+    function onLoadImage() {
         const {height,width}=image
         canvas.width=width
         canvas.height=height
@@ -93,8 +99,8 @@ document.addEventListener("DOMContentLoaded",function(){
         ]
     
         const [actualX, actualY] = [
-            +( relativeStartX * widthFactor ),
-            +( relativeStartY * heightFactor )
+            +( relativeX * widthFactor ),
+            +( relativeY * heightFactor )
         ]
     
         // pegar do ctx a imagem cortada
@@ -116,7 +122,13 @@ document.addEventListener("DOMContentLoaded",function(){
         // atualizar o preview da imagem
         photoPreview.src = canvas.toDataURL()
     
-        /* // mostrar o botão de download
-        downloadButton.style.display = 'initial' */
+        // mostrar o botão de download
+        downloadButton.style.display = 'initial'
+        downloadButton.onclick=e=>{
+            let a = document.createElement('a');
+            a.download= photoName+'crop-image.png'
+            a.href = canvas.toDataURL();
+            a.click();
+        }
     }
 })
